@@ -1,0 +1,41 @@
+/*Centralizando Tela de login*/
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card{
+    max-width:400px;
+    width:100%;
+}
+/*Fim Centralizando Tela de login*/
+
+/*Estilizando a tela de index.php*/
+.custom-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Efeitos diferenciados por cor */
+.border-primary:hover {
+  background-color: rgba(0,123,255,0.1);
+}
+
+.border-success:hover {
+  background-color: rgba(40,167,69,0.1);
+}
+
+.border-warning:hover {
+  background-color: rgba(255,193,7,0.1);
+}
+
+.border-danger:hover {
+  background-color: rgba(220,53,69,0.1);
+}
+/*Fim - Estilizando a tela de index.php*/

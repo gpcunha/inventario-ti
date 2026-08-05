@@ -34,6 +34,8 @@ CREATE TABLE usuarios (
     nome VARCHAR(100) NOT NULL,
     matricula VARCHAR(20) NOT NULL,
     login VARCHAR(50) UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    perfil ENUM('ADMIN', 'TECNICO', 'CONSULTA') NOT NULL DEFAULT 'CONSULTA',
     email VARCHAR(100) NOT NULL UNIQUE,
     ramal VARCHAR(10),
     cargo VARCHAR(100) NOT NULL,

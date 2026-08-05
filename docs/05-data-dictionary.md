@@ -33,6 +33,8 @@ Data:
 | nome | VARCHAR(100) | NOT NULL | Nome completo do colaborador. |
 | matricula | VARCHAR(20) | NOT NULL | Número de matrícula corporativa do colaborador. |
 | login | VARCHAR(50) | UNIQUE | Nome de usuário/login para autenticação no sistema. |
+| senha | VARCHAR(255) | NOT NULL | Campo reservado para autenticação do usuário/login no sistema. |
+| perfil | ENUM('ADMIN', 'TECNICO', 'CONSULTA') | NOT NULL, DEFAULT 'CONSULTA'| Definição de perfil por usuário/login para prioridade e segurança de acesso. |
 | email | VARCHAR(100) | NOT NULL, UNIQUE | Endereço de e-mail corporativo do usuário. |
 | ramal | VARCHAR(10) | NULL | Número do ramal telefônico do usuário. |
 | cargo | VARCHAR(100) | NOT NULL | Cargo ou função exercida pelo colaborador na empresa. |

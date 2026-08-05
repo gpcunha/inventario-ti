@@ -7,11 +7,15 @@ status
 
 Usuário
 -------------
-id
+id 
 nome
 matricula
+login
+senha
+perfil
 email
 ramal
+cargo
 departamento_id
 status
 
