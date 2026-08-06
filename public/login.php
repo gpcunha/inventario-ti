@@ -1,5 +1,10 @@
 <?php
     session_start();
+
+    if (!isset($_SESSION['usuario_id'])) {
+        header('Location: login.php');
+        exit();
+}
     include '../config/database.php';
     include '../includes/header.php';
     include '../includes/navbar.php';
@@ -16,7 +21,7 @@
             <p class="text-center">Acesse o sistema de gestão de ativos de TI.</p>
         <div class="form-container">
             <div class="col-lg-6 text-center">
-                <form action="autenticar.php" method="post">
+                <form action="autenticar.php" method="get">
                     <div class="mb-3">
                         <label class="form-label"> Login </label>
                         <input class="form-control" type="text" name="login" required autocomplete="username">
