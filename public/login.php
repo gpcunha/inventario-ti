@@ -1,18 +1,29 @@
 <?php
     session_start();
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: login.php');
-        exit();
-}
     include '../config/database.php';
     include '../includes/header.php';
     include '../includes/navbar.php';
 
-    if (isset($_SESSION['erro_login'])) {
-        echo '<div class="alert alert-danger text-center" role="alert">' . $_SESSION['erro_login'] . '</div>';
-        unset($_SESSION['erro_login']);
-    }
+    if (isset($_SESSION['erro_login'])): ?>
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+    <strong>Atenção!</strong>
+
+    <?= htmlspecialchars($_SESSION['erro_login']); ?>
+
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert">
+    </button>
+
+</div>
+
+<?php
+unset($_SESSION['erro_login']);
+endif;
 ?>
 
 <main class="container vh-100 d-flex justify-content-center align-items-center">
@@ -21,7 +32,7 @@
             <p class="text-center">Acesse o sistema de gestão de ativos de TI.</p>
         <div class="form-container">
             <div class="col-lg-6 text-center">
-                <form action="autenticar.php" method="get">
+                <form action="autenticar.php" method="post">
                     <div class="mb-3">
                         <label class="form-label"> Login </label>
                         <input class="form-control" type="text" name="login" required autocomplete="username">

@@ -1,17 +1,13 @@
 <?php
     session_start();
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: login.php');
-        exit();
-    }
     include '../config/database.php';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $login = $_POST['login'];
         $senha = $_POST['senha'];
 
-        $sql = "SELECT * FROM usuarios WHERE login = :login LIMIT 1";
+        $sql = "SELECT * FROM usuarios WHERE login = :login  AND status = 'ATIVO' LIMIT 1";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':login', $login);
         $stmt->execute();

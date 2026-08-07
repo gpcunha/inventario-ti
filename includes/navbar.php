@@ -2,8 +2,10 @@
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#">Inventário TI</a>
         <div class="ms-auto">
-            <span class="text-white me-3"> Glauco Paiva Cunha </span>
-            <a href="#" class="btn btn-outline-light btn-sm">Sair</a>
+            <span class="text-white me-3">
+                <?= htmlspecialchars($_SESSION['usuario_nome'] ?? 'Usuário'); ?>
+            </span>
+            <a href="logout.php" class="btn btn-outline-light btn-sm">Sair </a>
         </div>
     </div>
 </nav>

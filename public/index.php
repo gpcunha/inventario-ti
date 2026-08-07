@@ -48,5 +48,5 @@ if (!isset($_SESSION['usuario_id'])) {
     </div>
 </main>
 <?php
-    include '../includes/footer.php';
+   include '../includes/footer.php';
 ?>
