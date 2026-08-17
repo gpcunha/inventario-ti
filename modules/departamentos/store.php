@@ -46,3 +46,4 @@ $_SESSION['sucesso_departamento'] =     'Departamento adicionado com sucesso.';
 
 header('Location: index.php');
 exit();
+?>
