@@ -14,11 +14,11 @@
         exit();
     }
 
-    $nome = trim($_POST['name'] ?? '');
+    $name = trim($_POST['nome'] ?? '');
     $descricao = trim($_POST['descricao'] ?? '');
     $status = trim($_POST['status'] ?? 'ATIVO');
 
-    if ($nome === '') {
+    if ($name === '') {
         $_SESSION['erro_tiposEquipamento'] = 'O campo nome é obrigatório.';
         header('Location: create.php');
         exit();
@@ -35,12 +35,12 @@
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute([
-    ':nome' => $nome,
+    ':nome' => $name,
     ':descricao' => $descricao !== '' ? $descricao : null,
     ':status' => $status
     ]);
 
-    $_SESSION['erro_tiposEquipamento'] = 'Tipo de Equipamento adicionado com sucesso.';
+    $_SESSION['sucesso_tiposEquipamento'] = 'Tipo de Equipamento adicionado com sucesso.';
 
     header('Location: index.php');
     exit();

@@ -1,5 +1,4 @@
 <?php
-
     session_start();
 
     if (!isset($_SESSION['usuario_id'])) {
@@ -17,7 +16,7 @@
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 
     if (!$id) {
-        $_SESSION['erro_departamento'] = 'Departamento inválido.';
+        $_SESSION['erro_tiposEquipamento'] = 'Tipo de equipamento inválido.';
         header('Location: index.php');
         exit();
     }
@@ -27,7 +26,7 @@
     $status = $_POST['status'] ?? 'ATIVO';
 
     if ($nome === '') {
-        $_SESSION['erro_departamento'] =
+        $_SESSION['erro_tiposEquipamento'] =
             'O campo nome é obrigatório.';
 
         header("Location: edit.php?id=$id");
@@ -40,11 +39,12 @@
         $status = 'ATIVO';
     }
 
-    $sql = "UPDATE departamentos
+    $sql = "UPDATE tipos_equipamento
             SET nome = :nome,
                 descricao = :descricao,
                 status = :status
             WHERE id = :id";
+
 
     $stmt = $pdo->prepare($sql);
 
@@ -55,8 +55,8 @@
         ':id' => $id
     ]);
 
-    $_SESSION['sucesso_departamento'] =
-        'Departamento atualizado com sucesso.';
+    $_SESSION['sucesso_tiposEquipamento'] =
+        'Tipo de equipamento atualizado com sucesso.';
 
     header('Location: index.php');
     exit();

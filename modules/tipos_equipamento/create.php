@@ -6,17 +6,33 @@
         exit();
     }
 
-    include '../../config/database.php'; //Conexão com o banco de dados.
     include '../../includes/header.php'; //Incluindo o cabeçalho da página.
     include '../../includes/navbar.php'; //Incluindo a navegação da página.
 ?>
 
 <main class="container mt-4">
-    <h1 calss="mb-4">Cadastrar Tipo de Equipamento</h1>
+    <?php if (isset($_SESSION['erro_tiposEquipamento'])): ?>
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= htmlspecialchars($_SESSION['erro_tiposEquipamento']); ?>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Fechar">
+        </button>
+    </div>
+
+    <?php unset($_SESSION['erro_tiposEquipamento']); ?>
+
+    <?php endif; ?>
+
+    <h1 class="mb-4">Cadastrar Tipo de Equipamento</h1>
     <form action="store.php" method="post">
         <div class="mb-3">
-            <label for="name" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" maxlength="100" required>
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" maxlength="100" required>
         </div>
         <div class="mb-3">
             <label for="descricao" class="form-label">Descrição</label>
