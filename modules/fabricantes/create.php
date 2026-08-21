@@ -10,8 +10,6 @@
     ?>
 
     <main class="container mt-4">
-
-    
         <h1 class="mb-4">Cadastrar Fabricante</h1>
         <form action="store.php" method="post">
             <div class="mb-3">

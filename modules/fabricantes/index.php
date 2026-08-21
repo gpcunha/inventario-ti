@@ -12,7 +12,6 @@
 
     if (isset($_SESSION['sucesso_fabricante'])) {
 ?>
-
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?= htmlspecialchars($_SESSION['sucesso_fabricante']); ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
