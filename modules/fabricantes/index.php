@@ -68,7 +68,7 @@
                             <tr>
                                 <td><?= htmlspecialchars((string) $fabricante['id']);?></td>
                                 <td><?= htmlspecialchars($fabricante['nome']);?></td>
-                                <td><?= htmlspecialchars($fabricante['site']);?></td>                                
+                                <td><a href="<?= htmlspecialchars($fabricante['site']);?>" target="_blank"><?= htmlspecialchars($fabricante['site']);?></a></td>                                
                                 <td><?= htmlspecialchars($fabricante['observacoes'] ?: 'Não informada');?></td>
                                 <td>
                                     <?php if ($fabricante['status'] === 'ATIVO'): ?>

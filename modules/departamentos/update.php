@@ -23,7 +23,6 @@
     }
 
     $nome = trim($_POST['nome'] ?? '');
-    $descricao = trim($_POST['descricao'] ?? '');
     $status = $_POST['status'] ?? 'ATIVO';
 
     if ($nome === '') {
@@ -42,7 +41,6 @@
 
     $sql = "UPDATE departamentos
             SET nome = :nome,
-                descricao = :descricao,
                 status = :status
             WHERE id = :id";
 
@@ -50,7 +48,6 @@
 
     $stmt->execute([
         ':nome' => $nome,
-        ':descricao' => $descricao !== '' ? $descricao : null,
         ':status' => $status,
         ':id' => $id
     ]);

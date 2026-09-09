@@ -33,6 +33,7 @@ O sistema deverá permitir:
 - Cadastro de equipamentos;
 - Cadastro de usuários;
 - Cadastro de departamentos;
+- Cadastro de funções;
 - Controle de movimentações;
 - Registro de manutenções;
 - Consulta rápida das informações.
@@ -52,6 +53,7 @@ Também servirá como projeto demonstrativo para fins de estudo e portfólio pro
 A primeira versão contemplará:
 
 - Cadastro de departamentos;
+- Cadastro de funções;
 - Cadastro de usuários;
 - Cadastro de equipamentos;
 - Histórico de movimentações;

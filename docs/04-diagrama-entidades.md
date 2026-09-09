@@ -2,7 +2,14 @@ Departamento
 -------------
 id
 nome
+status
+
+Funcoes
+-------------
+id
+nome
 descricao
+departamento_id
 status
 
 Usuário

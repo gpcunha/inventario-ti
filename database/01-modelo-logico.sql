@@ -17,11 +17,30 @@ USE inventario_ti;
 CREATE TABLE departamentos(
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-    descricao TEXT,
     status ENUM('ATIVO', 'INATIVO') NOT NULL DEFAULT 'ATIVO',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- ==========================================
+-- ## Tabela: funcoes
+-- Descrição: Armazena os funçoes da empresa, determinadas a cada usuários na empresa.
+-- ==========================================
+
+CREATE TABLE funcoes(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(50) NOT NULL,
+    departamento_id INT NOT NULL,
+    status ENUM('ATIVO', 'INATIVO') NOT NULL DEFAULT 'ATIVO',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_funcoes_departamentos
+        FOREIGN KEY (departamento_id)
+        REFERENCES departamentos(id)
 );
 
 -- ==========================================
@@ -38,8 +57,8 @@ CREATE TABLE usuarios (
     perfil ENUM('ADMIN', 'TECNICO', 'CONSULTA') NOT NULL DEFAULT 'CONSULTA',
     email VARCHAR(100) NOT NULL UNIQUE,
     ramal VARCHAR(10),
-    cargo VARCHAR(100) NOT NULL,
     departamento_id INT NULL,
+    funcao_id INT NULL,
     status ENUM('ATIVO', 'INATIVO') NOT NULL DEFAULT 'ATIVO',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -48,6 +67,10 @@ CREATE TABLE usuarios (
     CONSTRAINT fk_usuarios_departamentos
         FOREIGN KEY (departamento_id)
         REFERENCES departamentos(id)
+
+    CONSTRAINT fk_usuarios_funcoes
+        FOREIGN KEY (funcao_id)
+        REFERENCES funcoes(id)
 );
 
 -- ==========================================

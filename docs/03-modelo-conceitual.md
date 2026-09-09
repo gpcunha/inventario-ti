@@ -4,15 +4,28 @@
 
 ### Departamento
 
-Representa os setores da empresa.
+Representa os setores atribuídas na empresa.
 
 Exemplos:
 
-- TI
-- RH
-- Financeiro
+- TI 
+- RH 
+- Financeiro 
 - Frente de Caixa
 - Depósito
+
+---
+
+### Função
+
+Representa a função atribuida a cada departamento na empresa.
+
+Exemplos:
+
+- Assistente de Informático
+- Auxíliar de Informática
+- Analista de RH
+- Auxíliar de RH
 
 ---
 

@@ -21,12 +21,24 @@ O sistema deverá permitir cadastrar departamentos.
 Campos:
 
 - Nome
-- Descrição
 - Status
 
 ---
 
-## RF002 - Cadastro de Usuários
+## RF002 - Cadastro de Funções
+
+O sistema deverá permitir cadastrar funcão.
+
+Campos:
+
+- Nome
+- Descrição
+- Departamento
+- Status
+
+---
+
+## RF003 - Cadastro de Usuários
 
 O sistema deverá permitir cadastrar usuários responsáveis pelos equipamentos.
 
@@ -37,11 +49,12 @@ Campos:
 - E-mail
 - Ramal
 - Departamento
+- Função
 - Status
 
 ---
 
-## RF003 - Cadastro de Equipamentos
+## RF004 - Cadastro de Equipamentos
 
 O sistema deverá permitir cadastrar equipamentos de TI.
 
@@ -61,7 +74,7 @@ Campos:
 
 ---
 
-## RF004 - Cadastro de Tipos de Equipamentos
+## RF005 - Cadastro de Tipos de Equipamentos
 
 O sistema deverá permitir cadastrar categorias.
 
@@ -82,7 +95,7 @@ Exemplos:
 
 ---
 
-## RF005 - Movimentação de Equipamentos
+## RF006 - Movimentação de Equipamentos
 
 O sistema deverá registrar toda movimentação realizada.
 
@@ -97,7 +110,7 @@ Informações:
 
 ---
 
-## RF006 - Registro de Manutenção
+## RF007 - Registro de Manutenção
 
 O sistema deverá armazenar o histórico de manutenção.
 
@@ -114,7 +127,7 @@ Informações:
 
 ---
 
-## RF007 - Pesquisa
+## RF008 - Pesquisa
 
 O sistema deverá permitir localizar equipamentos por:
 
@@ -127,7 +140,7 @@ O sistema deverá permitir localizar equipamentos por:
 
 ---
 
-## RF008 - Dashboard
+## RF009 - Dashboard
 
 O sistema deverá apresentar indicadores.
 

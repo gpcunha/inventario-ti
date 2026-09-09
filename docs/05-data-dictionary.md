@@ -10,7 +10,7 @@ Glauco Paiva Cunha
 Data:
 01/08/2026
 
-## Tabela: departamentos       
+## 1. Tabela: departamentos       
                                 
     Descrição:
     Armazena os departamentos da empresa, permitindo a organização e alocação dos equipamentos.       
@@ -18,12 +18,28 @@ Data:
 | Campo | Tipo | Restrições | Descrição |
 | id | INT | PK, AUTO_INCREMENT | Identificador único do departamento. |
 | nome | VARCHAR(100) | NOT NULL | Nome do departamento. |
-| descricao | TEXT | NULL | Descrição detalhada das atividades ou escopo do departamento. |
 | status | ENUM('ATIVO', 'INATIVO') | NOT NULL, DEFAULT 'ATIVO' | Status de operação do departamento. |
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Data e hora de criação do registro no sistema. |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Data e hora da última atualização do registro (atualizado automaticamente). |
+
+## 2. Tabela: funcoes       
                                 
-## 2. Tabela: usuarios       
+    Descrição:
+    Armazena os funçoes da empresa, determinadas a cada usuários na empresa.       
+                                
+| Campo | Tipo | Restrições | Descrição |
+| id | INT | PK, AUTO_INCREMENT | Identificador único da função. |
+| nome | VARCHAR(100) | NOT NULL | Nome da função. |
+| funcao | VARCHAR(50) | NOT NULL | Função atribuída ao departamento escolhido. |
+| descricao | TEXT | NULL | Descrição detalhada das atividades ou escopo do departamento. |
+| departamento_id | INT | FK (departamentos.id), NULL | Chave Estrangeira referente ao departamento do colaborador. |
+| status | ENUM('ATIVO', 'INATIVO') | NOT NULL, DEFAULT 'ATIVO' | Status da função no sistema. |
+
+    Relacionamentos
+    • departamento_id → departamentos(id)
+
+                                
+## 3. Tabela: usuarios       
                                 
     Descrição:
     Armazena os dados do colaborador responsável pelo uso do equipamento.       
@@ -46,7 +62,7 @@ Data:
     Relacionamentos
     • departamento_id → departamentos(id)
                                 
-## 3. Tabela: fabricantes       
+## 4. Tabela: fabricantes       
                                 
     Descrição:
     Armazena os dados do fabricante do equipamento.       
@@ -60,7 +76,7 @@ Data:
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Data e hora de criação do registro no sistema. |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Data e hora da última atualização do registro (atualizado automaticamente). |
                                 
-## 4. Tabela: tipos_equipamento       
+## 5. Tabela: tipos_equipamento       
                                 
     Descrição:
     Armazena os tipos de equipamentos (ex: notebook, desktop, servidor, impressora).       
@@ -73,7 +89,7 @@ Data:
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Data e hora de criação do registro no sistema. |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Data e hora da última atualização do registro (atualizado automaticamente). |
                                 
-## 5. Tabela: equipamentos       
+## 6. Tabela: equipamentos       
                                 
     Descrição:
     Armazena os dados dos equipamentos de TI, incluindo informações de hardware, software e localização.       
@@ -107,7 +123,7 @@ Data:
     • usuario_id → usuarios(id)
 
                                 
-## 6. Tabela: movimentacoes       
+## 7. Tabela: movimentacoes       
                                 
     Descrição:
     Histórico de transferências, alocações e empréstimos dos equipamentos.       
@@ -135,7 +151,7 @@ Data:
     • departamento_destino_id → departamentos(id)
     • responsavel_ti_id → usuarios(id)
                                 
-## 7. Tabela: prestadores_servico       
+## 8. Tabela: prestadores_servico       
                                 
     Descrição:
     Cadastro de prestadores de serviços para registro de reparos e prevenções externas, garantindo rastreabilidade e histórico de manutenção.       
@@ -152,7 +168,7 @@ Data:
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Data e hora de criação do registro no sistema. |
 | updated_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | Data e hora da última atualização do registro (atualizado automaticamente). |
                                 
-## 8. Tabela: manutencoes       
+## 9. Tabela: manutencoes       
                                 
     Descrição:
     Registro de intervenções técnicas, reparos e prevenções.       
