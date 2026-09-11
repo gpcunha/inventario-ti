@@ -5,6 +5,7 @@
         exit();
     }
 
+    include '../../config/database.php';
     include '../../includes/header.php';
     include '../../includes/navbar.php';
 ?>
@@ -19,7 +20,7 @@
 
     <?php endif; ?>
 
-    <h1 class="mb-4">Cadastrar de Usuários</h1>
+    <h1 class="mb-4">Cadastrar Usuário</h1>
     <form action="store.php" method="post">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
@@ -30,29 +31,39 @@
             <input type="text" class="form-control" id="matricula" name="matricula" maxlength="20" required>
         </div>
         <div class="mb-3">
-            <label for="usuario" class="form-label">Usuário</label>
-            <input type="text" class="form-control" id="usuario" name="usuario" maxlength="50" required>
+            <label for="login" class="form-label">Login</label>
+            <input type="text" class="form-control" id="login" name="login" maxlength="50" required>
+        </div>
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="senha" name="senha" required>
+        </div>
+        <div class="mb-3">
+            <label for="perfil" class="form-label">Perfil</label>
+            <select class="form-select" name="perfil" id="perfil">
+                <option value="" disabled selected>Selecione um perfil</option>
+                <option value="ADMINISTRADOR">Administrador</option>
+                <option value="TECNICO">Técnico</option>
+                <option value="CONSULTA">Consulta</option>
+            </select>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>
-            <input type="text" class="form-control" id="email" name="email" maxlength="100" required>
+            <input type="email" class="form-control" id="email" name="email" maxlength="100" required>
         </div>
         <div class="mb-3">
             <label for="ramal" class="form-label">Ramal</label>
             <input type="text" class="form-control" id="ramal" name="ramal" maxlength="10" required>
         </div>
-
         <div class="mb-3">
             <label for="departamento" class="form-label">Departamento</label>
             <?php
-                include '../../config/database.php';
-
-                $query = "SELECT id, nome FROM departamentos GROUP BY nome ORDER BY nome ASC";
+                $query = "SELECT id, nome FROM departamentos WHERE status = 'ATIVO' ORDER BY nome ASC";
                 $stmt = $pdo->prepare($query);
                 $stmt->execute();
                 $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
-            <select class="form-select" name="departamento" id="departamento" required>
+            <select class="form-select" name="departamento_id" id="departamento" required>
                 <option value="" disabled selected>Selecione um departamento</option>
                 <?php foreach ($departamentos as $departamento): ?>
                     <option value="<?= htmlspecialchars($departamento['id']); ?>"><?= htmlspecialchars($departamento['nome']); ?>
@@ -67,14 +78,6 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="perfil" class="form-label">Perfil</label>
-            <select class="form-control" name="perfil" id="perfil">
-                <option value="" disabled selected>Selecione um perfil</option>
-                <option value="ADMINISTRADOR">Administrador</option>
-                <option value="USUARIO">Usuário</option>
-            </select>
-        </div>
-        <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select class="form-select" id="status" name="status" required>
                 <option value="ATIVO" selected>Ativo</option>
@@ -85,51 +88,5 @@
         <a href="index.php" class="btn btn-secondary">Cancelar</a>
     </form>
 </main>
-<script>
-    const departamento = document.getElementById('departamento');
-    const funcao = document.getElementById('funcao_id');
-
-    departamento.addEventListener('change', function () {
-        const departamentoId = this.value;
-
-        funcao.innerHTML = '<option value="" disabled selected>Carregando...</option>';
-
-        fetch(`buscar_funcoes.php?id=${departamentoId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar funções');
-                }
-
-                return response.json();
-            })
-            .then(funcoes => {
-                funcao.innerHTML = '';
-
-                if (funcoes.length === 0) {
-                    funcao.innerHTML =
-                        '<option value="" disabled selected>Nenhuma função cadastrada</option>';
-
-                    return;
-                }
-
-                funcao.innerHTML =
-                    '<option value="" disabled selected>Selecione uma função</option>';
-
-                funcoes.forEach(item => {
-                    const option = document.createElement('option');
-
-                    option.value = item.id;
-                    option.textContent = item.nome;
-
-                    funcao.appendChild(option);
-                });
-            })
-            .catch(error => {
-                funcao.innerHTML =
-                    '<option value="" disabled selected>Erro ao carregar funções</option>';
-
-                console.error(error);
-            });
-    });
-</script>
+<script src="../../assets/js/buscar_funcao.js"></script>
 <?php include '../../includes/footer.php'; ?>

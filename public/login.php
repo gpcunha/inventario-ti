@@ -31,7 +31,7 @@ endif;
         <h1 class="text-center mb-2">Inventário TI</h1>
             <p class="text-center">Acesse o sistema de gestão de ativos de TI.</p>
         <div class="form-container">
-            <div class="col-lg-6 text-center">
+            <div class="col-lg-15 text-center">
                 <form action="autenticar.php" method="post">
                     <div class="mb-3">
                         <label class="form-label"> Login </label>

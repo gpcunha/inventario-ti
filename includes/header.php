@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">      
 
     <!-- CSS do Projeto -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
 
     <!-- JQuery e plugin para máscara -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
