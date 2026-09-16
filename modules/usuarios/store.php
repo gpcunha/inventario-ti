@@ -1,5 +1,6 @@
 <?php
     session_start();
+
     if (!isset($_SESSION['usuario_id'])) {
         header('Location: ../../public/login.php');
         exit();
@@ -22,6 +23,9 @@
     $departamento_id = filter_input(INPUT_POST, 'departamento_id', FILTER_VALIDATE_INT);
     $funcao_id = filter_input(INPUT_POST, 'funcao_id', FILTER_VALIDATE_INT);
     $status = $_POST['status'] ?? '';
+
+    $_SESSION['dados_usuario'] = ['nome' => $nome, 'matricula' => $matricula, 'login' => $login, 'perfil' => $perfil, 'email' => $email, 'ramal' => $ramal, 'departamento_id' => $departamento_id, 'funcao_id' => $funcao_id, 'status' => $status];
+    
     // Validação de perfil
     $perfisPermitidos = ['ADMINISTRADOR', 'TECNICO', 'CONSULTA'];
 
@@ -46,8 +50,8 @@
     }
 
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE login = :login");
-    $stmt->bindValue(':login', $login);
-    $stmt->execute();
+        $stmt->bindValue(':login', $login);
+        $stmt->execute();
 
     $count = $stmt->fetchColumn();
 
@@ -95,6 +99,7 @@
         ':funcao_id' => $funcao_id,
         ':status' => $status
         ])) {
+            unset($_SESSION['dados_usuario']);
             $_SESSION['sucesso_usuario'] = 'Usuário cadastrado com sucesso.';
             header('Location: index.php');
             exit();

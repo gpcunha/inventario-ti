@@ -8,6 +8,10 @@
     include '../../config/database.php';
     include '../../includes/header.php';
     include '../../includes/navbar.php';
+
+    $dados_usuario = $_SESSION['dados_usuario'] ?? [];
+    unset($_SESSION['erro_usuario']);
+    $departamentoSelecionado = $dados_usuario['departamento_id'] ?? '';
 ?>
 <main class="container mt-4">
     <?php if (isset($_SESSION['erro_usuario'])): ?>
@@ -24,15 +28,15 @@
     <form action="store.php" method="post">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" maxlength="100" required>
+            <input type="text" class="form-control" id="nome" name="nome" maxlength="100" required value="<?= htmlspecialchars($dados_usuario['nome'] ?? '') ?>">
         </div>
         <div class="mb-3">
             <label for="matricula" class="form-label">Matricula</label>
-            <input type="text" class="form-control" id="matricula" name="matricula" maxlength="20" required>
+            <input type="text" class="form-control" id="matricula" name="matricula" maxlength="20" required value="<?= htmlspecialchars($dados_usuario['matricula'] ?? '') ?>">
         </div>
         <div class="mb-3">
             <label for="login" class="form-label">Login</label>
-            <input type="text" class="form-control" id="login" name="login" maxlength="50" required>
+            <input type="text" class="form-control" id="login" name="login" maxlength="50" required value="<?= htmlspecialchars($dados_usuario['login'] ?? '') ?>">
         </div>
         <div class="mb-3">
             <label for="senha" class="form-label">Senha</label>
@@ -41,19 +45,19 @@
         <div class="mb-3">
             <label for="perfil" class="form-label">Perfil</label>
             <select class="form-select" name="perfil" id="perfil">
-                <option value="" disabled selected>Selecione um perfil</option>
-                <option value="ADMINISTRADOR">Administrador</option>
-                <option value="TECNICO">Técnico</option>
-                <option value="CONSULTA">Consulta</option>
+                <option value="" disabled <?= empty($dados_usuario['perfil']) ? 'selected' : '' ?>>Selecione um perfil</option>
+                <option value="ADMINISTRADOR" <?= ($dados_usuario['perfil'] ?? '') === 'ADMINISTRADOR' ? 'selected' : '' ?>>Administrador</option>
+                <option value="TECNICO" <?= ($dados_usuario['perfil'] ?? '') === 'TECNICO' ? 'selected' : '' ?>>Técnico</option>
+                <option value="CONSULTA" <?= ($dados_usuario['perfil'] ?? '') === 'CONSULTA' ? 'selected' : '' ?>>Consulta</option>
             </select>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>
-            <input type="email" class="form-control" id="email" name="email" maxlength="100" required>
+            <input type="email" class="form-control" id="email" name="email" maxlength="100" required value="<?= htmlspecialchars($dados_usuario['email'] ?? '') ?>">
         </div>
         <div class="mb-3">
             <label for="ramal" class="form-label">Ramal</label>
-            <input type="text" class="form-control" id="ramal" name="ramal" maxlength="10" required>
+            <input type="text" class="form-control" id="ramal" name="ramal" maxlength="10" required value="<?= htmlspecialchars($dados_usuario['ramal'] ?? '') ?>">
         </div>
         <div class="mb-3">
             <label for="departamento" class="form-label">Departamento</label>
@@ -63,25 +67,30 @@
                 $stmt->execute();
                 $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
+
             <select class="form-select" name="departamento_id" id="departamento" required>
-                <option value="" disabled selected>Selecione um departamento</option>
-                <?php foreach ($departamentos as $departamento): ?>
-                    <option value="<?= htmlspecialchars($departamento['id']); ?>"><?= htmlspecialchars($departamento['nome']); ?>
+                <option value="" disabled <?= empty($departamentoSelecionado) ? 'selected' : '' ?>>
+                    Selecione um departamento
                 </option>
+                <?php foreach ($departamentos as $departamento): ?>
+                    <option value="<?= htmlspecialchars($departamento['id']); ?>"
+                        <?= (string)$departamento['id'] === (string)$departamentoSelecionado ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($departamento['nome']); ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div class="mb-3">
             <label for="funcao_id" class="form-label">Função</label>
-            <select class="form-select" name="funcao_id" id="funcao_id" required>
+            <select class="form-select" name="funcao_id" id="funcao_id" required data-funcao-selecionada="<?= htmlspecialchars($dados_usuario['funcao_id'] ?? '') ?>">
                 <option value="" disabled selected>Selecione primeiro um departamento</option>
             </select>
         </div>
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select class="form-select" id="status" name="status" required>
-                <option value="ATIVO" selected>Ativo</option>
-                <option value="INATIVO">Inativo</option> 
+                <option value="ATIVO" <?= ($dados_usuario['status'] ?? 'ATIVO') === 'ATIVO' ? 'selected' : '' ?>>Ativo</option>
+                <option value="INATIVO" <?= ($dados_usuario['status'] ?? '') === 'INATIVO' ? 'selected' : '' ?>>Inativo</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Salvar</button>
