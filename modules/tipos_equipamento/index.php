@@ -16,17 +16,17 @@
             <?= htmlspecialchars($_SESSION['sucesso_tiposEquipamento']); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
-    <?php
-        unset($_SESSION['sucesso_tiposEquipamento']); 
+        <?php
+            unset($_SESSION['sucesso_tiposEquipamento']); 
         }
-        if(isset($_SESSION['erro_tiposEquipamento'])){
-    ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= htmlspecialchars($_SESSION['erro_tiposEquipamento']); ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-    </div>
-    <?php
-        unset($_SESSION['erro_tiposEquipamento']);
+            if(isset($_SESSION['erro_tiposEquipamento'])){
+        ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= htmlspecialchars($_SESSION['erro_tiposEquipamento']); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+        <?php
+            unset($_SESSION['erro_tiposEquipamento']);
 
         }
         $query = "

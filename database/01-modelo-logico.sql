@@ -90,6 +90,58 @@ CREATE TABLE fabricantes (
 );
 
 -- ==========================================
+-- ## Tabela: tipos_componentes
+-- Descrição: Armazena os tipos de componentes como memória RAM, processadores, coolers, placa de vídeo, etc.
+-- ==========================================
+
+CREATE TABLE tipos_componentes(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT NULL,
+    status ENUM('ATIVO', 'INATIVO') NOT NULL DEFAULT 'ATIVO',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- ==========================================
+-- ## Tabela: componentes
+-- Descrição: Armazena a descrição componentes 
+-- ==========================================
+
+CREATE TABLE componentes(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    equipamento_id INT NULL,
+    tipo_componente_id INT NULL,
+    fabricante_id INT NULL,
+    modelo VARCHAR(50) NOT NULL,
+    numero_serie VARCHAR(100) UNIQUE,
+    especificacao VARCHAR(255) NULL,
+    status ENUM(
+        'INSTALADO',
+        'EM ESTOQUE',
+        'EM MANUTENCAO',
+        'REMOVIDO',
+        'DESCARTADO'
+    ) NOT NULL DEFAULT 'INSTALADO',
+    observacoes TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_componentes_equipamentos
+        FOREIGN KEY (equipamento_id)
+        REFERENCES equipamentos(id),
+
+    CONSTRAINT fk_componentes_tipos
+        FOREIGN KEY (tipo_componente_id)
+        REFERENCES tipos_componentes(id),
+
+    CONSTRAINT fk_componentes_fabricantes
+        FOREIGN KEY (fabricante_id)
+        REFERENCES fabricantes(id)
+);
+-- ==========================================
 -- ## Tabela: tipos_equipamento
 -- Descrição: Armazena os tipos de equipamentos, como notebook, desktop, servidor, impressora, etc.
 -- ==========================================
