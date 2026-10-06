@@ -14,15 +14,20 @@
     }
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 
-    if (!$id) {
-        $_SESSION['erro_tipo_componente'] = 'Tipo de componente inválido.';
+    $sql = "SELECT id FROM tipos_componentes WHERE id = :id LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
+
+    if (!$stmt->fetch()) {
+        $_SESSION['erro_tipo_componente'] = 'Tipo de componente não encontrado.';
         header('Location: index.php');
         exit();
     }
-    $sql = "UPDATE tipos_componentes SET status = 'INATIVO' WHERE id = :id";
 
+    $sql = "UPDATE tipos_componentes SET status = 'INATIVO' WHERE id = :id AND status = 'ATIVO'";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':id' => $id]);
+
     $_SESSION['sucesso_tipo_componente'] = 'Tipo de componente inativado com sucesso.';
 
     header('Location: index.php');

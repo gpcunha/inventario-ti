@@ -37,7 +37,7 @@
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <?= htmlspecialchars($_SESSION['erro_tipo_componente']); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert"
-                aria-label="Fechar"> </button>
+                aria-label="Fechar"></button>
         </div>
 
         <?php unset($_SESSION['erro_tipo_componente']); ?>

@@ -26,9 +26,7 @@
     $status = $_POST['status'] ?? 'ATIVO';
 
     if ($nome === '') {
-        $_SESSION['erro_tipo_componente'] =
-            'O campo nome é obrigatório.';
-
+        $_SESSION['erro_tipo_componente'] = 'O campo nome é obrigatório.';
         header("Location: edit.php?id=$id");
         exit();
     }
@@ -37,6 +35,29 @@
 
     if (!in_array($status, $statusPermitidos, true)) {
         $status = 'ATIVO';
+    }
+
+    $sql = "SELECT id FROM tipos_componentes WHERE id = :id LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
+
+    if (!$stmt->fetch()) {
+        $_SESSION['erro_tipo_componente'] = 'Tipo de componente não encontrado.';
+        header('Location: index.php');
+        exit();
+    }
+
+    $sql = "SELECT id FROM tipos_componentes WHERE nome = :nome AND id <> :id LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':nome' => $nome,
+        ':id' => $id
+    ]);
+
+    if ($stmt->fetch()) {
+        $_SESSION['erro_tipo_componente'] = 'Já existe outro tipo de componente com este nome.';
+        header("Location: edit.php?id=$id");
+        exit();
     }
 
     $sql = "UPDATE tipos_componentes SET nome = :nome, descricao = :descricao, status = :status WHERE id = :id";
@@ -48,9 +69,7 @@
         ':id' => $id
     ]);
 
-    $_SESSION['sucesso_tipo_componente'] =
-        'Tipo de componente atualizado com sucesso.';
-
+    $_SESSION['sucesso_tipo_componente'] = 'Tipo de componente atualizado com sucesso.';
     header('Location: index.php');
     exit();
 ?>

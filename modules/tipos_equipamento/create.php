@@ -6,28 +6,17 @@
         exit();
     }
 
-    include '../../includes/header.php'; //Incluindo o cabeçalho da página.
-    include '../../includes/navbar.php'; //Incluindo a navegação da página.
+    include '../../includes/header.php'; 
+    include '../../includes/navbar.php';
 ?>
-
 <main class="container mt-4">
     <?php if (isset($_SESSION['erro_tiposEquipamento'])): ?>
-
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?= htmlspecialchars($_SESSION['erro_tiposEquipamento']); ?>
-
-        <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Fechar">
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
     </div>
-
     <?php unset($_SESSION['erro_tiposEquipamento']); ?>
-
     <?php endif; ?>
-
     <h1 class="mb-4">Cadastrar Tipo de Equipamento</h1>
     <form action="store.php" method="post">
         <div class="mb-3">
