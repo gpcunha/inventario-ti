@@ -264,30 +264,20 @@ CREATE TABLE prestadores_servico (
 
 CREATE TABLE manutencoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    equipamento_id INT NOT NULL,
-    tipo_manutencao ENUM('PREVENTIVA', 'CORRETIVA', 'UPGRADE') NOT NULL DEFAULT 'CORRETIVA',
-    defeito_relatado TEXT NOT NULL,
-    solucao_realizada TEXT NULL,
-    prestador_servico_id INT NULL,
-    numero_nota_fiscal VARCHAR(50) NULL,
-    custo DECIMAL(10, 2) DEFAULT 0.00,
-    coberto_por_garantia ENUM('SIM', 'NAO') NOT NULL DEFAULT 'NAO',
-    data_abertura DATE NOT NULL DEFAULT (CURRENT_DATE),
-    data_envio DATE NOT NULL,
-    data_previsao_retorno DATE NULL,
+    equipamento_id INT NOT NULL, tipo ENUM('PREVENTIVA', 'CORRETIVA', 'PREDITIVA' ) NOT NULL,
+    descricao_problema TEXT NOT NULL,
+    servico_realizado TEXT NULL,
+    prestador_id INT NULL,
+    usuario_id INT NULL,
+    data_abertura DATE NOT NULL,
     data_conclusao DATE NULL,
-    status ENUM('AGUARDANDO_ENVIO', 'EM_ANALISE', 'EM_MANUTENCAO', 'CONCLUIDO', 'CANCELADO', 'SEM_CONSERTO') NOT NULL DEFAULT 'EM_MANUTENCAO',
-    solicitante_ti_id INT NOT NULL,
-    observacoes TEXT,
+    custo DECIMAL(10,2) NULL,
+    status ENUM('ABERTA', 'EM ANDAMENTO', 'AGUARDANDO PEÇA', 'AGUARDANDO PRESTADOR', 'CONCLUÍDA', 'CANCELADA') NOT NULL DEFAULT 'ABERTA',
+    observacoes TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_manutencoes_equipamentos
-        FOREIGN KEY (equipamento_id) REFERENCES equipamentos(id),
-        
-    CONSTRAINT fk_manutencoes_solicitante
-        FOREIGN KEY (solicitante_ti_id) REFERENCES usuarios(id),
-
-    CONSTRAINT fk_manutencoes_prestadores
-        FOREIGN KEY (prestador_servico_id) REFERENCES prestadores_servico(id)
+    CONSTRAINT fk_manutencoes_equipamentos FOREIGN KEY (equipamento_id) REFERENCES equipamentos(id),
+    CONSTRAINT fk_manutencoes_prestadores  FOREIGN KEY (prestador_id)  REFERENCES prestadores_servico(id),
+    CONSTRAINT fk_manutencoes_usuarios FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
