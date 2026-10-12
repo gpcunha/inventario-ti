@@ -6,6 +6,14 @@
         exit();
     }
 
+    $perfil = $_SESSION['usuario_perfil'] ?? '';
+
+    $podeGerenciarMovimentacoes = in_array(
+        $perfil,
+        ['ADMINISTRADOR', 'TECNICO'],
+        true
+    );
+
     include '../../config/database.php';
     include '../../includes/header.php';
     include '../../includes/navbar.php';
@@ -41,7 +49,11 @@
 <main class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>Movimentações</h1>
-        <a href="create.php" class="btn btn-primary">Adicionar Movimentação</a>
+        <?php if ($podeGerenciarMovimentacoes): ?>
+            <a href="create.php" class="btn btn-primary">
+                Adicionar Movimentação
+            </a>
+        <?php endif; ?>
     </div>
 
     <div class="table-responsive">
@@ -134,7 +146,16 @@
                                 ); ?>
                             </td>
                             <td>
-                               <a href="edit.php?id=<?= (int) $movimentacao['id']; ?>" class="btn btn-sm btn-warning">Editar</a>
+                                <?php if ($podeGerenciarMovimentacoes): ?>
+                                    <a
+                                        href="edit.php?id=<?= (int) $movimentacao['id']; ?>"
+                                        class="btn btn-sm btn-warning"
+                                    >
+                                        Editar
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">Somente consulta</span>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

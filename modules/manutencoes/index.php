@@ -6,6 +6,14 @@
         exit();
     }
 
+    $perfil = $_SESSION['usuario_perfil'] ?? '';
+
+    $podeGerenciarManutencoes = in_array(
+        $perfil,
+        ['ADMINISTRADOR', 'TECNICO'],
+        true
+    );
+
     include '../../config/database.php';
     include '../../includes/header.php';
     include '../../includes/navbar.php';
@@ -36,7 +44,11 @@
     <main class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>Manutenção</h1>
-            <a href="create.php" class="btn btn-primary">Adicionar Manutenção</a>
+            <?php if ($podeGerenciarManutencoes): ?>
+                <a href="create.php" class="btn btn-primary">
+                    Adicionar Manutenção
+                </a>
+            <?php endif; ?>
         </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
@@ -49,7 +61,7 @@
                         <th>Prestador</th>
                         <th>Responsável</th>
                         <th>Abertura</th>
-                        th>Conclusão</th>
+                        <th>Conclusão</th>
                         <th>Custo</th>  
                         <th>Status</th>
                         <th>Ações</th>
@@ -68,8 +80,17 @@
                             <td><?= $manutencao['data_conclusao'] ? htmlspecialchars(date('d/m/Y', strtotime($manutencao['data_conclusao']))) : '-'; ?></td>
                             <td><?= $manutencao['custo'] ? 'R$ ' . number_format($manutencao['custo'], 2, ',', '.') : '-'; ?></td>
                             <td><?= htmlspecialchars($manutencao['status']); ?></td>
-                            <td class="d-flex gap-1">
-                                <a href="edit.php?id=<?= urlencode($manutencao['id']); ?>" class="btn btn-sm btn-warning">Editar</a>
+                            <td>
+                                <?php if ($podeGerenciarManutencoes): ?>
+                                    <a
+                                        href="edit.php?id=<?= (int) $manutencao['id']; ?>"
+                                        class="btn btn-sm btn-warning"
+                                    >
+                                        Editar
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">Somente consulta</span>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

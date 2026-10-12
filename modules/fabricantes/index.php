@@ -1,6 +1,10 @@
 <?php
     session_start();
 
+    $perfil = $_SESSION['usuario_perfil'] ?? '';
+
+    $podeGerenciarFabricantes = $perfil === 'ADMINISTRADOR';
+
     if (!isset($_SESSION['usuario_id'])) {
         header('Location: ../../public/login.php');
         exit();
@@ -42,8 +46,14 @@
 ?>
     <main class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1>fabricantes</h1>
-            <a href="create.php" class="btn btn-primary">Adicionar fabricante</a>
+            <h1>Fabricantes</h1>
+            
+            <?php if ($podeGerenciarFabricantes): ?>
+                <a href="create.php" class="btn btn-primary">
+                    Adicionar fabricante
+                </a>
+            <?php endif; ?>
+
         </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
@@ -77,13 +87,19 @@
                                             <span class="badge text-bg-secondary">Inativo</span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= date('d/m/Y H:i', strtotime($fabricante['created_at'])); ?></td>
-                                <td><a href="edit.php?id=<?= (int) $fabricante['id']; ?>" class="btn btn-warning btn-sm"> Editar </a>
-                                    <?php if ($fabricante['status'] === 'ATIVO'): ?>
-                                        <form action="inactivate.php" method="post" class="d-inline" onsubmit="return confirm('Deseja inativar este fabricante?');">
-                                            <input type="hidden" name="id" value="<?= (int) $fabricante['id']; ?>">
-                                            <button type="submit" class="btn btn-danger btn-sm">Inativar</button>
-                                        </form>
+                                <td><?= date('d/m/Y H:i', strtotime($fabricante['created_at'])); ?></td>                                
+                                <td>
+                                    <?php if ($podeGerenciarFabricantes): ?>
+
+                                        <a href="edit.php?id=<?= (int) $fabricante['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
+                                        <?php if ($fabricante['status'] === 'ATIVO'): ?>
+                                            <form action="inactivate.php" method="post" class="d-inline" onsubmit="return confirm('Deseja inativar este fabricante?');">
+                                                <input type="hidden" name="id" value="<?= (int) $fabricante['id']; ?>">
+                                                <button type="submit" class="btn btn-danger btn-sm">Inativar</button>
+                                            </form>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span class="text-muted">Somente consulta</span>
                                     <?php endif; ?>
                                 </td>
                             </tr>

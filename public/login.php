@@ -3,7 +3,6 @@
 
     include '../config/database.php';
     include '../includes/header.php';
-    include '../includes/navbar.php';
 
     if (isset($_SESSION['erro_login'])): ?>
 
@@ -32,7 +31,7 @@ endif;
             <p class="text-center">Acesse o sistema de gestão de ativos de TI.</p>
         <div class="form-container">
             <div class="col-lg-15 text-center">
-                <form action="autenticar.php" method="post">
+                <form action="/public/autenticar.php" method="post">
                     <div class="mb-3">
                         <label class="form-label"> Login </label>
                         <input class="form-control" type="text" name="login" required autocomplete="username">

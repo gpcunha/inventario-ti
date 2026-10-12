@@ -1,6 +1,14 @@
 <?php
     session_start();
 
+    $perfil = $_SESSION['usuario_perfil'] ?? '';
+
+    $podeGerenciarEquipamentos = in_array(
+        $perfil,
+        ['ADMINISTRADOR', 'TECNICO'],
+        true
+    );
+
     if (!isset($_SESSION['usuario_id'])) {
         header('Location: ../../public/login.php');
         exit();
@@ -38,7 +46,11 @@
 <main class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>Equipamentos</h1>
-        <a href="create.php" class="btn btn-primary">Adicionar Equipamento</a>
+        <?php if ($podeGerenciarEquipamentos): ?>
+            <a href="create.php" class="btn btn-primary">
+                Adicionar Equipamento
+            </a>
+        <?php endif; ?>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
@@ -75,7 +87,12 @@
                             <td><?= htmlspecialchars($equipamento['departamento'] ?? 'Não informado'); ?></td>
                             <td><?= htmlspecialchars($equipamento['usuario'] ?? 'Não informado'); ?></td>
                             <td><span class="badge text-bg-secondary"><?= htmlspecialchars($equipamento['status']); ?></span></td>
-                            <td><a href="edit.php?id=<?= (int) $equipamento['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
+                            <td>
+                                <?php if ($podeGerenciarEquipamentos): ?>
+                                    <a href="edit.php?id=<?= (int) $equipamento['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
+                                <?php else: ?>
+                                    <span class="text-muted">Somente consulta</span>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
