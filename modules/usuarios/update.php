@@ -1,10 +1,7 @@
 <?php
-    session_start();
+    require_once '../../includes/controle_acesso.php';
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: ../../public/login.php');
-        exit();
-    }
+    exigirPerfil(['ADMINISTRADOR']);
 
     include '../../config/database.php';
 
@@ -89,7 +86,7 @@
     $stmt->execute([':funcao_id' => $funcao_id, ':departamento_id' => $departamento_id]);
     $count = $stmt->fetchColumn();
 
-    if ($count === 0) {
+    if ((int) $count === 0) {
         $_SESSION['erro_usuario'] = 'A função selecionada não pertence ao departamento informado ou está inativa.';
         header("Location: edit.php?id={$id}");
         exit();
@@ -99,7 +96,7 @@
     $stmt->execute([':departamento_id' => $departamento_id]);
     $count = $stmt->fetchColumn();
 
-    if ($count === 0) {
+    if ((int) $count === 0) {
         $_SESSION['erro_usuario'] = 'O departamento selecionado não existe ou está inativo.';
         header("Location: edit.php?id={$id}");
         exit();

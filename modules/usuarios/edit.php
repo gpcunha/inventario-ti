@@ -1,10 +1,7 @@
 <?php
-    session_start();
+    require_once '../../includes/controle_acesso.php';
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: ../../public/login.php');
-        exit();
-    }
+    exigirPerfil(['ADMINISTRADOR']);
 
     include '../../config/database.php';
     include '../../includes/header.php';
@@ -60,7 +57,7 @@
 
         <div class="mb-3">
             <label for="senha" class="form-label">Nova Senha</label>
-            <input type="password" class="form-control" id="senha" name="senha" .minlength="6">
+            <input type="password" class="form-control" id="senha" name="senha" minlength="6">
             <div class="form-text">
                 Deixe em branco para manter a senha atual.
             </div>
