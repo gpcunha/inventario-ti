@@ -1,10 +1,7 @@
 <?php
-    session_start();
+    require_once '../../includes/controle_acesso.php';
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: ../../public/login.php');
-        exit();
-    }
+    exigirPerfil(['ADMINISTRADOR', 'TECNICO']);
 
     include '../../config/database.php';
 
@@ -167,8 +164,7 @@
     $observacoes = $observacoes !== '' ? $observacoes : null;
 
     /*Inserção*/
-    $query = "
-        INSERT INTO manutencoes (
+    $query = "INSERT INTO manutencoes (
             equipamento_id,
             tipo,
             descricao_problema,

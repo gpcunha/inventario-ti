@@ -1,17 +1,16 @@
 <?php
-    session_start();
+    require_once '../../includes/controle_acesso.php';
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: ../../public/login.php');
-        exit();
-    }
+    exigirPerfil(['ADMINISTRADOR', 'TECNICO']);
 
     include '../../config/database.php';
     include '../../includes/header.php';
     include '../../includes/navbar.php';
 
     $dados_manutencao = $_SESSION['dados_manutencao'] ?? [];
-    $stmt = $pdo->prepare("SELECT id, patrimonio, modelo FROM equipamentos WHERE status <> 'DESCARTE' ORDER BY patrimonio ASC");
+
+    $stmt = $pdo->prepare("SELECT id, patrimonio, modelo FROM equipamentos 
+    WHERE status <> 'DESCARTE' ORDER BY patrimonio ASC");
     $stmt->execute();
     $equipamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
