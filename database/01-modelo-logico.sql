@@ -56,12 +56,12 @@ CREATE TABLE usuarios (
     departamento_id INT NULL,
     funcao_id INT NULL,
     status ENUM('ATIVO', 'INATIVO') NOT NULL DEFAULT 'ATIVO',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_usuarios_departamentos
     FOREIGN KEY (departamento_id)
-    REFERENCES departamentos(id)
+    REFERENCES departamentos(id),
     CONSTRAINT fk_usuarios_funcoes
     FOREIGN KEY (funcao_id)
     REFERENCES funcoes(id)
@@ -225,12 +225,15 @@ CREATE TABLE prestadores_servico (
 );
 
 -- ==========================================
--- ## Tabela: manutencoes
--- Descrição: Registro de intervenções técnicas, reparos e prevenções.
+-- Tabela: manutencoes
+-- Descrição: Registro de intervenções técnicas,
+-- reparos e prevenções.
 -- ==========================================
+
 CREATE TABLE manutencoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    equipamento_id INT NOT NULL, tipo ENUM('PREVENTIVA', 'CORRETIVA', 'PREDITIVA' ) NOT NULL,
+    equipamento_id INT NOT NULL,
+    tipo ENUM('PREVENTIVA', 'CORRETIVA', 'PREDITIVA') NOT NULL,
     descricao_problema TEXT NOT NULL,
     servico_realizado TEXT NULL,
     prestador_id INT NULL,
@@ -241,8 +244,18 @@ CREATE TABLE manutencoes (
     status ENUM('ABERTA', 'EM ANDAMENTO', 'AGUARDANDO PEÇA', 'AGUARDANDO PRESTADOR', 'CONCLUÍDA', 'CANCELADA') NOT NULL DEFAULT 'ABERTA',
     observacoes TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_manutencoes_equipamentos FOREIGN KEY (equipamento_id) REFERENCES equipamentos(id),
-    CONSTRAINT fk_manutencoes_prestadores  FOREIGN KEY (prestador_id)  REFERENCES prestadores_servico(id),
-    CONSTRAINT fk_manutencoes_usuarios FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    -- Relacionamento com equipamentos
+    CONSTRAINT fk_manutencoes_equipamentos
+        FOREIGN KEY (equipamento_id)
+        REFERENCES equipamentos(id),
+    -- Relacionamento com prestadores de serviços
+    CONSTRAINT fk_manutencoes_prestadores
+        FOREIGN KEY (prestador_id)
+        REFERENCES prestadores_servico(id),
+    -- Relacionamento com usuários responsáveis
+    CONSTRAINT fk_manutencoes_usuarios
+        FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id)
 );

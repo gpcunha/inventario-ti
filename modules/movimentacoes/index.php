@@ -1,18 +1,12 @@
 <?php
-    session_start();
 
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: ../../public/login.php');
-        exit();
-    }
+    require_once '../../includes/controle_acesso.php';
+
+    exigirLogin();
 
     $perfil = $_SESSION['usuario_perfil'] ?? '';
 
-    $podeGerenciarMovimentacoes = in_array(
-        $perfil,
-        ['ADMINISTRADOR', 'TECNICO'],
-        true
-    );
+    $podeGerenciarMovimentacoes = in_array( $perfil, ['ADMINISTRADOR', 'TECNICO'], true);
 
     include '../../config/database.php';
     include '../../includes/header.php';
@@ -50,9 +44,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>Movimentações</h1>
         <?php if ($podeGerenciarMovimentacoes): ?>
-            <a href="create.php" class="btn btn-primary">
-                Adicionar Movimentação
-            </a>
+            <a href="create.php" class="btn btn-primary">Adicionar Movimentação</a>
         <?php endif; ?>
     </div>
 
@@ -80,18 +72,13 @@
                     <?php foreach ($movimentacoes as $movimentacao): ?>
                         <tr>
                             <td>
-                                <?= htmlspecialchars(
-                                    (string) $movimentacao['id']); ?>
+                                <?= htmlspecialchars((string) $movimentacao['id']); ?>
                             </td>
                             <td>
-                                <?= htmlspecialchars(
-                                    $movimentacao['patrimonio']
-                                    . ' - '
-                                    . $movimentacao['modelo']); ?>
+                                <?= htmlspecialchars($movimentacao['patrimonio'] . ' - ' . $movimentacao['modelo']); ?>
                             </td>
                             <td>
-                                <?= htmlspecialchars(
-                                    $movimentacao['tipo_movimentacao']); ?>
+                                <?= htmlspecialchars($movimentacao['tipo_movimentacao']); ?>
                             </td>
                             <td>
                                 <?php

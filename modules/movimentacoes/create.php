@@ -12,117 +12,49 @@
 
     $dados_movimentacao = $_SESSION['dados_movimentacao'] ?? [];
 
-
-    /*
-     * Equipamentos
-     */
-
-    $stmt = $pdo->prepare("
-        SELECT id, patrimonio, modelo
-        FROM equipamentos
-        WHERE status <> 'DESCARTE'
-        ORDER BY patrimonio ASC
-    ");
-
+    /*Equipamentos */
+    $stmt = $pdo->prepare("SELECT id, patrimonio, modelo FROM equipamentos WHERE status <> 'DESCARTE' ORDER BY patrimonio ASC");
     $stmt->execute();
-
     $equipamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-    /*
-     * Usuários ativos
-     */
-
-    $stmt = $pdo->prepare("
-        SELECT id, nome
-        FROM usuarios
-        WHERE status = 'ATIVO'
-        ORDER BY nome ASC
-    ");
-
+    /*Usuários ativos*/
+    $stmt = $pdo->prepare("SELECT id, nome FROM usuarios WHERE status = 'ATIVO' ORDER BY nome ASC");
     $stmt->execute();
-
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-    /*
-     * Departamentos ativos
-     */
-
-    $stmt = $pdo->prepare("
-        SELECT id, nome
-        FROM departamentos
-        WHERE status = 'ATIVO'
-        ORDER BY nome ASC
-    ");
-
+    /*Departamentos ativos*/
+    $stmt = $pdo->prepare("SELECT id, nome FROM departamentos WHERE status = 'ATIVO' ORDER BY nome ASC");
     $stmt->execute();
-
     $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
 <main class="container mt-4">
-
     <div class="d-flex justify-content-between align-items-center mb-3">
-
         <h1>Adicionar Movimentação</h1>
-
-        <a href="index.php" class="btn btn-secondary">
-            Voltar
-        </a>
-
+        <a href="index.php" class="btn btn-secondary">Voltar</a>
     </div>
 
-
     <?php if (isset($_SESSION['erro_movimentacao'])): ?>
-
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-
             <?= htmlspecialchars($_SESSION['erro_movimentacao']); ?>
-
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Fechar">
-            </button>
-
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
-
         <?php unset($_SESSION['erro_movimentacao']); ?>
-
     <?php endif; ?>
 
-
     <form action="store.php" method="POST">
-
-
         <!-- Equipamento -->
-
         <div class="row">
-
             <div class="col-md-12 mb-3">
-
-                <label for="equipamento_id" class="form-label">
-                    Equipamento
-                </label>
-
-                <select
-                    name="equipamento_id"
-                    id="equipamento_id"
-                    class="form-select"
-                    required>
-
+                <label for="equipamento_id" class="form-label">Equipamento</label>
+                <select name="equipamento_id" id="equipamento_id" class="form-select" required>
                     <option value="" disabled
                         <?= empty($dados_movimentacao['equipamento_id'])
                             ? 'selected'
                             : ''; ?>>
                         Selecione um equipamento
                     </option>
-
                     <?php foreach ($equipamentos as $equipamento): ?>
-
                         <option
                             value="<?= (int) $equipamento['id']; ?>"
                             <?= isset($dados_movimentacao['equipamento_id'])
@@ -130,43 +62,26 @@
                                     == $equipamento['id']
                                 ? 'selected'
                                 : ''; ?>>
-
                             <?= htmlspecialchars(
                                 $equipamento['patrimonio']
                                 . ' - '
                                 . $equipamento['modelo']
                             ); ?>
-
                         </option>
-
                     <?php endforeach; ?>
-
                 </select>
-
             </div>
 
-
             <!-- Tipo -->
-
             <div class="col-md-6 mb-3">
-
-                <label for="tipo_movimentacao" class="form-label">
-                    Tipo de movimentação
-                </label>
-
-                <select
-                    name="tipo_movimentacao"
-                    id="tipo_movimentacao"
-                    class="form-select"
-                    required>
-
+                <label for="tipo_movimentacao" class="form-label">Tipo de movimentação</label>
+                <select name="tipo_movimentacao" id="tipo_movimentacao" class="form-select" required>
                     <option value="" disabled
                         <?= empty($dados_movimentacao['tipo_movimentacao'])
                             ? 'selected'
                             : ''; ?>>
                         Selecione o tipo
                     </option>
-
                     <option value="ALOCACAO"
                         <?= ($dados_movimentacao['tipo_movimentacao'] ?? '')
                             === 'ALOCACAO'
@@ -174,7 +89,6 @@
                             : ''; ?>>
                         Alocação
                     </option>
-
                     <option value="DEVOLUCAO"
                         <?= ($dados_movimentacao['tipo_movimentacao'] ?? '')
                             === 'DEVOLUCAO'
@@ -182,7 +96,6 @@
                             : ''; ?>>
                         Devolução
                     </option>
-
                     <option value="TRANSFERENCIA"
                         <?= ($dados_movimentacao['tipo_movimentacao'] ?? '')
                             === 'TRANSFERENCIA'
@@ -190,7 +103,6 @@
                             : ''; ?>>
                         Transferência
                     </option>
-
                     <option value="EMPRESTIMO"
                         <?= ($dados_movimentacao['tipo_movimentacao'] ?? '')
                             === 'EMPRESTIMO'
@@ -198,7 +110,6 @@
                             : ''; ?>>
                         Empréstimo
                     </option>
-
                     <option value="MANUTENCAO"
                         <?= ($dados_movimentacao['tipo_movimentacao'] ?? '')
                             === 'MANUTENCAO'
@@ -206,7 +117,6 @@
                             : ''; ?>>
                         Manutenção
                     </option>
-
                     <option value="DESCARTE"
                         <?= ($dados_movimentacao['tipo_movimentacao'] ?? '')
                             === 'DESCARTE'
@@ -214,20 +124,12 @@
                             : ''; ?>>
                         Descarte
                     </option>
-
                 </select>
-
             </div>
 
-
             <!-- Motivo -->
-
             <div class="col-md-6 mb-3">
-
-                <label for="motivo_movimentacao" class="form-label">
-                    Motivo da movimentação
-                </label>
-
+                <label for="motivo_movimentacao" class="form-label">Motivo da movimentação</label>
                 <input
                     type="text"
                     name="motivo_movimentacao"
@@ -236,39 +138,18 @@
                     maxlength="100"
                     value="<?= htmlspecialchars(
                         $dados_movimentacao['motivo_movimentacao'] ?? ''
-                    ); ?>">
-
+                  ); ?>">
             </div>
-
         </div>
-
-
         <hr>
-
         <h4 class="mb-3">Origem</h4>
-
-
         <div class="row">
-
             <!-- Usuário origem -->
-
             <div class="col-md-4 mb-3">
-
-                <label for="usuario_origem_id" class="form-label">
-                    Usuário
-                </label>
-
-                <select
-                    name="usuario_origem_id"
-                    id="usuario_origem_id"
-                    class="form-select">
-
-                    <option value="">
-                        Não informado
-                    </option>
-
+                <label for="usuario_origem_id" class="form-label">Usuário</label>
+                <select name="usuario_origem_id" id="usuario_origem_id" class="form-select">
+                    <option value="">Não informado</option>
                     <?php foreach ($usuarios as $usuario): ?>
-
                         <option
                             value="<?= (int) $usuario['id']; ?>"
                             <?= isset($dados_movimentacao['usuario_origem_id'])
@@ -276,37 +157,18 @@
                                     == $usuario['id']
                                 ? 'selected'
                                 : ''; ?>>
-
                             <?= htmlspecialchars($usuario['nome']); ?>
-
                         </option>
-
                     <?php endforeach; ?>
-
                 </select>
-
             </div>
 
-
             <!-- Departamento origem -->
-
             <div class="col-md-4 mb-3">
-
-                <label for="departamento_origem_id" class="form-label">
-                    Departamento
-                </label>
-
-                <select
-                    name="departamento_origem_id"
-                    id="departamento_origem_id"
-                    class="form-select">
-
-                    <option value="">
-                        Não informado
-                    </option>
-
+                <label for="departamento_origem_id" class="form-label"> Departamento</label>
+                <select name="departamento_origem_id"id="departamento_origem_id"class="form-select">
+                    <option value="">Não informado</option>
                     <?php foreach ($departamentos as $departamento): ?>
-
                         <option
                             value="<?= (int) $departamento['id']; ?>"
                             <?= isset($dados_movimentacao['departamento_origem_id'])
@@ -314,26 +176,15 @@
                                     == $departamento['id']
                                 ? 'selected'
                                 : ''; ?>>
-
                             <?= htmlspecialchars($departamento['nome']); ?>
-
                         </option>
-
                     <?php endforeach; ?>
-
                 </select>
-
             </div>
 
-
             <!-- Localização origem -->
-
             <div class="col-md-4 mb-3">
-
-                <label for="localizacao_origem" class="form-label">
-                    Localização
-                </label>
-
+                <label for="localizacao_origem" class="form-label">Localização</label>
                 <input
                     type="text"
                     name="localizacao_origem"
@@ -343,38 +194,18 @@
                     value="<?= htmlspecialchars(
                         $dados_movimentacao['localizacao_origem'] ?? ''
                     ); ?>">
-
             </div>
-
         </div>
-
-
         <hr>
-
         <h4 class="mb-3">Destino</h4>
-
-
         <div class="row">
 
             <!-- Usuário destino -->
-
             <div class="col-md-4 mb-3">
-
-                <label for="usuario_destino_id" class="form-label">
-                    Usuário
-                </label>
-
-                <select
-                    name="usuario_destino_id"
-                    id="usuario_destino_id"
-                    class="form-select">
-
-                    <option value="">
-                        Não informado
-                    </option>
-
+                <label for="usuario_destino_id" class="form-label">Usuário</label>
+                <select name="usuario_destino_id" id="usuario_destino_id" class="form-select">
+                    <option value="">Não informado</option>
                     <?php foreach ($usuarios as $usuario): ?>
-
                         <option
                             value="<?= (int) $usuario['id']; ?>"
                             <?= isset($dados_movimentacao['usuario_destino_id'])
@@ -382,22 +213,14 @@
                                     == $usuario['id']
                                 ? 'selected'
                                 : ''; ?>>
-
                             <?= htmlspecialchars($usuario['nome']); ?>
-
                         </option>
-
                     <?php endforeach; ?>
-
                 </select>
-
             </div>
 
-
             <!-- Departamento destino -->
-
             <div class="col-md-4 mb-3">
-
                 <label for="departamento_destino_id" class="form-label">
                     Departamento
                 </label>
@@ -422,15 +245,10 @@
                                 : ''; ?>>
 
                             <?= htmlspecialchars($departamento['nome']); ?>
-
                         </option>
-
                     <?php endforeach; ?>
-
                 </select>
-
             </div>
-
 
             <!-- Localização destino -->
 
@@ -439,7 +257,6 @@
                 <label for="localizacao_destino" class="form-label">
                     Localização
                 </label>
-
                 <input
                     type="text"
                     name="localizacao_destino"
@@ -449,22 +266,14 @@
                     value="<?= htmlspecialchars(
                         $dados_movimentacao['localizacao_destino'] ?? ''
                     ); ?>">
-
             </div>
-
         </div>
-
-
         <hr>
-
-
         <div class="row">
-
             <!-- Responsável TI -->
-
             <div class="col-md-6 mb-3">
 
-                <label for="responsavel_ti_id" class="form-label">
+               <label for="responsavel_ti_id" class="form-label">
                     Responsável de TI
                 </label>
 
